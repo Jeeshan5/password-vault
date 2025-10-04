@@ -1,4 +1,32 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🔐 SecureVault - Password Generator + Secure Vault
+
+A modern, secure password management application built with Next.js 15, TypeScript, and Tailwind CSS. Features client-side encryption, beautiful 3D UI, and comprehensive password management.
+
+## 🌟 Features
+
+- **🔑 Strong Password Generation** - Cryptographically secure passwords with customizable options
+- **🔒 Client-Side Encryption** - Your passwords are encrypted in your browser before storage  
+- **💎 Modern 3D UI** - Beautiful glassmorphism design with smooth animations
+- **📱 Responsive Design** - Works perfectly on all devices
+- **🔍 Smart Search** - Quickly find passwords with real-time filtering
+- **📋 Smart Clipboard** - Copy passwords with 15-second auto-clear for security
+- **👁️ Password Visibility** - Toggle password visibility with eye icons
+- **🌙 Dark Mode** - Automatic dark/light mode support
+
+## 🚀 Demo Credentials
+
+For testing the application:
+- **Email:** `demo@example.com`  
+- **Password:** `demo123`
+
+## ⚠️ Important Security Notice
+
+This is a **demonstration application** with simplified security for development purposes. Current implementation uses:
+- Mock in-memory data storage (not persistent)
+- Simplified encryption (Base64 for demo)
+- No real database connection
+
+**For production use:** Implement proper database security, real encryption, HTTPS, and follow security best practices.
 
 ## Getting Started
 
