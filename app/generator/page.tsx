@@ -5,10 +5,8 @@ import Link from 'next/link';
 import PasswordGenerator from '../../components/PasswordGenerator';
 
 export default function GeneratorPage() {
-  const [_generatedPassword, setGeneratedPassword] = useState('');
-
-  const handlePasswordGenerated = (password: string) => {
-    setGeneratedPassword(password);
+  const handlePasswordGenerated = (_password: string) => {
+    // Password is handled by the PasswordGenerator component itself
   };
 
   return (

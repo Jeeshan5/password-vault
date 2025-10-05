@@ -50,7 +50,7 @@ export default function VaultList({ masterPassword, onEdit, refreshTrigger, sear
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [masterPassword]);
 
   useEffect(() => {
     loadItems();
@@ -77,8 +77,8 @@ export default function VaultList({ masterPassword, onEdit, refreshTrigger, sear
       setTimeout(async () => {
         try {
           await navigator.clipboard.writeText('');
-        } catch (_e) {
-          // May be blocked by browser
+        } catch {
+          // May be blocked by browser - ignore silently
         }
         setCopiedId(null);
       }, 15000);

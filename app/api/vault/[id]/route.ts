@@ -41,7 +41,7 @@ function getUserIdFromToken(authHeader: string | null): string | null {
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const authHeader = request.headers.get('authorization');
@@ -55,7 +55,8 @@ export async function PUT(
     }
 
     const { title, username, password, url, notes } = await request.json();
-    const itemId = params.id;
+    const resolvedParams = await params;
+    const itemId = resolvedParams.id;
 
     if (!title || !username || !password) {
       return NextResponse.json(
@@ -99,7 +100,7 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const authHeader = request.headers.get('authorization');
@@ -112,7 +113,8 @@ export async function DELETE(
       );
     }
 
-    const itemId = params.id;
+    const resolvedParams = await params;
+    const itemId = resolvedParams.id;
 
     // Find and remove item
     const itemIndex = mockVaultItems.findIndex(item => 
