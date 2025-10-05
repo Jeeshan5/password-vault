@@ -80,7 +80,7 @@ export default function PasswordGenerator({ onPasswordGenerated, className = '' 
         // Auto-clear clipboard after 15 seconds for security
         try {
           await navigator.clipboard.writeText('');
-        } catch (e) {
+        } catch (_e) {
           // May be blocked by browser
         }
         setCopied(false);

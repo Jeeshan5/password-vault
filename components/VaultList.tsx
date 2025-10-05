@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { VaultItem, vaultAPI } from '@/utils/api';
-import { encryptData, decryptData } from '@/utils/crypto';
+import { decryptData } from '@/utils/crypto';
 
 interface VaultListProps {
   masterPassword: string;
@@ -18,11 +18,7 @@ export default function VaultList({ masterPassword, onEdit, refreshTrigger, sear
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [visiblePasswords, setVisiblePasswords] = useState<Set<string>>(new Set());
 
-  useEffect(() => {
-    loadItems();
-  }, [refreshTrigger]);
-
-  const loadItems = async () => {
+  const loadItems = useCallback(async () => {
     try {
       setLoading(true);
       const response = await vaultAPI.getAll();
@@ -48,12 +44,17 @@ export default function VaultList({ masterPassword, onEdit, refreshTrigger, sear
       );
       
       setItems(decryptedItems);
-    } catch (error: any) {
-      setError(error.response?.data?.error || 'Failed to load vault items');
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to load vault items';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    loadItems();
+  }, [refreshTrigger, loadItems]);
 
   const handleDelete = async (id: string) => {
     if (!window.confirm('Are you sure you want to delete this item?')) return;
@@ -61,8 +62,9 @@ export default function VaultList({ masterPassword, onEdit, refreshTrigger, sear
     try {
       await vaultAPI.delete(id);
       setItems(items.filter(item => item._id !== id));
-    } catch (error: any) {
-      setError(error.response?.data?.error || 'Failed to delete item');
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to delete item';
+      setError(errorMessage);
     }
   };
 
@@ -75,7 +77,7 @@ export default function VaultList({ masterPassword, onEdit, refreshTrigger, sear
       setTimeout(async () => {
         try {
           await navigator.clipboard.writeText('');
-        } catch (e) {
+        } catch (_e) {
           // May be blocked by browser
         }
         setCopiedId(null);

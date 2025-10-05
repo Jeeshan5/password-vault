@@ -5,7 +5,7 @@ import Link from 'next/link';
 import PasswordGenerator from '../../components/PasswordGenerator';
 
 export default function GeneratorPage() {
-  const [generatedPassword, setGeneratedPassword] = useState('');
+  const [_generatedPassword, setGeneratedPassword] = useState('');
 
   const handlePasswordGenerated = (password: string) => {
     setGeneratedPassword(password);
@@ -97,11 +97,11 @@ export default function GeneratorPage() {
                   </li>
                   <li className="flex items-start">
                     <span className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                    <span><strong>Exclude similar characters:</strong> Avoid confusing characters like 'l', '1', 'O', and '0'</span>
+                    <span><strong>Exclude similar characters:</strong> Avoid confusing characters like &apos;l&apos;, &apos;1&apos;, &apos;O&apos;, and &apos;0&apos;</span>
                   </li>
                   <li className="flex items-start">
                     <span className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                    <span><strong>Cryptographically secure:</strong> Uses browser's built-in crypto API for true randomness</span>
+                    <span><strong>Cryptographically secure:</strong> Uses browser&apos;s built-in crypto API for true randomness</span>
                   </li>
                   <li className="flex items-start">
                     <span className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>

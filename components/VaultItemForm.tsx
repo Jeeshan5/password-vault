@@ -62,8 +62,9 @@ export default function VaultItemForm({ item, masterPassword, onSave, onCancel }
       }
 
       onSave();
-    } catch (error: any) {
-      setError(error.response?.data?.error || 'Failed to save item');
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to save item';
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }

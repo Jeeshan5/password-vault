@@ -23,8 +23,9 @@ export default function LoginPage() {
     try {
       await login(email, password);
       router.push('/vault');
-    } catch (error: any) {
-      setError(error.response?.data?.error || 'Login failed. Please try again.');
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Login failed. Please try again.';
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -142,7 +143,7 @@ export default function LoginPage() {
 
             <div className="text-center">
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Don't have an account?{' '}
+                Don&apos;t have an account?{' '}
                 <Link href="/signup" className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400">
                   Sign up
                 </Link>

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 // Mock user database for demo purposes
 // In production, replace with actual database
-let mockUsers = [
+const mockUsers = [
   {
     id: '1',
     email: 'demo@example.com',

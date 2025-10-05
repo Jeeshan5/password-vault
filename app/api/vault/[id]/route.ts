@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 // Mock vault database for demo purposes
 // In production, replace with actual database
-let mockVaultItems = [
+const mockVaultItems = [
   {
     _id: '1',
     title: 'Gmail',

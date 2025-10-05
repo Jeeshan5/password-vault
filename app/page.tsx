@@ -113,7 +113,7 @@ export default function Home() {
               </h3>
               <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
                 Your passwords are encrypted in your browser before being stored. 
-                Even we can't see your sensitive data - true zero-knowledge security.
+                Even we can&apos;t see your sensitive data - true zero-knowledge security.
               </p>
               <Link
                 href="/signup"

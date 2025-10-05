@@ -37,8 +37,9 @@ export default function SignupPage() {
     try {
       await signup(email, password);
       router.push('/vault');
-    } catch (error: any) {
-      setError(error.response?.data?.error || 'Signup failed. Please try again.');
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Signup failed. Please try again.';
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }
