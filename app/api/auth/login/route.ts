@@ -1,18 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-
-// Mock user database for demo purposes
-// In production, replace with actual database
-const mockUsers = [
-  {
-    id: '1',
-    email: 'demo@example.com',
-    password: 'demo123', // In production, this would be hashed
-    createdAt: new Date().toISOString()
-  }
-];
+import bcrypt from 'bcryptjs';
+import dbConnect from '@/lib/dbConnect';
+import User from '@/models/User';
+import { generateToken } from '@/lib/jwt';
 
 export async function POST(request: NextRequest) {
   try {
+    await dbConnect();
+
     const { email, password } = await request.json();
 
     if (!email || !password) {
@@ -22,8 +17,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Find user by email (mock database lookup)
-    const user = mockUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
+    // Find user by email
+    const user = await User.findOne({ email: email.toLowerCase() });
     if (!user) {
       return NextResponse.json(
         { error: 'Invalid credentials' },
@@ -31,23 +26,24 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check password (in production, use bcrypt.compare)
-    if (user.password !== password) {
+    // Check password
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
       return NextResponse.json(
         { error: 'Invalid credentials' },
         { status: 401 }
       );
     }
 
-    // Generate simple token (in production, use JWT)
-    const token = `demo-token-${user.id}-${Date.now()}`;
+    // Generate JWT token
+    const token = generateToken(user);
 
     return NextResponse.json({
       token,
       user: {
-        id: user.id,
+        id: user._id.toString(),
         email: user.email,
-        createdAt: user.createdAt
+        createdAt: user.createdAt.toISOString(),
       }
     });
 

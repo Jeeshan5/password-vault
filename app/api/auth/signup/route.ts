@@ -1,18 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-
-// Mock user database for demo purposes
-// In production, replace with actual database
-const mockUsers = [
-  {
-    id: '1',
-    email: 'demo@example.com',
-    password: 'demo123', // In production, this would be hashed
-    createdAt: new Date().toISOString()
-  }
-];
+import bcrypt from 'bcryptjs';
+import dbConnect from '@/lib/dbConnect';
+import User from '@/models/User';
+import { generateToken } from '@/lib/jwt';
 
 export async function POST(request: NextRequest) {
   try {
+    await dbConnect();
+
     const { email, password } = await request.json();
 
     if (!email || !password) {
@@ -30,7 +25,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if user already exists
-    const existingUser = mockUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
+    const existingUser = await User.findOne({ email: email.toLowerCase() });
     if (existingUser) {
       return NextResponse.json(
         { error: 'User already exists with this email' },
@@ -38,25 +33,25 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create new user (in production, hash password and save to database)
-    const newUser = {
-      id: String(mockUsers.length + 1),
+    // Hash password
+    const saltRounds = 12;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    // Create new user
+    const newUser = await User.create({
       email: email.toLowerCase(),
-      password: password, // In production, hash with bcrypt
-      createdAt: new Date().toISOString()
-    };
+      password: hashedPassword,
+    });
 
-    mockUsers.push(newUser);
-
-    // Generate simple token (in production, use JWT)
-    const token = `demo-token-${newUser.id}-${Date.now()}`;
+    // Generate JWT token
+    const token = generateToken(newUser);
 
     return NextResponse.json({
       token,
       user: {
-        id: newUser.id,
+        id: newUser._id.toString(),
         email: newUser.email,
-        createdAt: newUser.createdAt
+        createdAt: newUser.createdAt.toISOString(),
       }
     });
 
