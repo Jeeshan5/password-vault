@@ -1,11 +1,10 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import PasswordGenerator from '../../components/PasswordGenerator';
 
 export default function GeneratorPage() {
-  const handlePasswordGenerated = (_password: string) => {
+  const handlePasswordGenerated = () => {
     // Password is handled by the PasswordGenerator component itself
   };
 
