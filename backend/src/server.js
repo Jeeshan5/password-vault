@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 5000;
 const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:3001',
-  'https://password-vault-mu.vercel.app/'
+  'https://password-vault-mu.vercel.app'
 ];
 
 app.use(cors({
